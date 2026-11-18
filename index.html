@@ -1,0 +1,765 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pocketful: Scrapbook Journal</title>
+<meta name="description" content="A scrapbook journal for your whole life. Photos, moods, habits and more, tucked into monthly pockets. Private by default: your pages stay on your phone.">
+<meta property="og:title" content="Pocketful: Scrapbook Journal">
+<meta property="og:description" content="A scrapbook journal for your whole life. Photos, moods, habits and more.">
+<meta property="og:image" content="https://henanmaliyakkal-creator.github.io/pocketful-site/img/icon.png">
+<link rel="icon" href="img/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Caveat:wght@500;600&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --desk: #F2EDE3;
+    --desk-deep: #E6DFD1;
+    --paper: #FCFAF5;
+    --paper-warm: #F7F2E8;
+    --card: #FFFEFA;
+    --grid: rgba(37,34,31,.075);
+    --ink: #25221F;
+    --ink-soft: #6B645B;
+    --ink-faint: #8E867B;
+    --line: #DED6C8;
+    --kraft: #C9A77C;
+    --sticky: #F9E58E;
+    --sticky-edge: #EED36A;
+    --on-butter: #5A4A1F; /* secondary text on yellow paper, tinted from the paper instead of grey */
+    --stamp: #D35F3F;
+    --stamp-deep: #B34728; /* same ink, pressed harder: 5.1:1 under white text */
+    --denim: #7F9BBD;
+    --denim-deep: #5F7CA2;
+    --tape-pink: #F2C2AE;
+    --tape-mint: #BCD7C6;
+    --tape-blue: #C7D1EC;
+    --tape-butter: #F2E1A4;
+    --p-pink: #F7D4DB; --p-pink-b: #E9A9B7;
+    --p-sage: #95AFA0; --p-sage-b: #6F8F7D;
+    --p-apricot: #F3C48E; --p-apricot-b: #E39D58;
+    --p-butter: #F1DA90; --p-butter-b: #DDBA55;
+    --p-lilac: #E4B8EF; --p-lilac-b: #C98CD9;
+    --p-sky: #BEDEF3; --p-sky-b: #8DBCE0;
+    --shadow: 0 3px 6px rgba(59,47,34,.14), 0 1px 2px rgba(59,47,34,.08);
+    --shadow-lift: 0 14px 28px rgba(59,47,34,.16), 0 3px 6px rgba(59,47,34,.10);
+    --display: 'Archivo Black', 'Arial Black', sans-serif;
+    --serif: 'Instrument Serif', Georgia, serif;
+    --type: 'Courier Prime', 'Courier New', monospace;
+    --hand: 'Caveat', 'Segoe Print', cursive;
+    --gutter: 16px;
+  }
+  @media (min-width: 720px) { :root { --gutter: 40px; } }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation: none !important; transition: none !important; } }
+  body {
+    background: var(--desk);
+    background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 22px 22px;
+    color: var(--ink);
+    font-family: var(--type);
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; text-underline-offset: 3px; }
+  ::selection { background: var(--sticky); color: var(--ink); }
+  input { caret-color: var(--stamp-deep); }
+  :focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; border-radius: 4px; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 var(--gutter); }
+
+  /* Headline idiom from the app: chunky bold line, serif italic line */
+  .headline { font-family: var(--display); font-weight: 400; line-height: .98; letter-spacing: -.015em; }
+  .headline i { display: block; font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 1.14em; letter-spacing: 0; line-height: .98; }
+  .hand { font-family: var(--hand); font-weight: 500; color: var(--ink-soft); }
+  .prose { color: var(--ink-soft); max-width: 44ch; }
+  .prose b { color: var(--ink); font-weight: 700; }
+
+  /* Buttons */
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 52px; padding: 0 22px; border-radius: 999px; font: 700 15px/1 var(--type); text-decoration: none; cursor: pointer; border: 1.5px solid var(--ink); transition: transform .12s ease; }
+  .btn:active { transform: translateY(1px) scale(.99); }
+  .btn-ink { background: var(--ink); color: var(--paper); }
+  .btn-stamp { background: var(--stamp-deep); border-color: var(--stamp-deep); color: #FFF8F2; }
+  .btn-ghost { background: transparent; color: var(--ink); }
+  .btn svg { width: 18px; height: 18px; }
+
+  /* Tape */
+  .tape { position: absolute; height: 22px; width: 84px; background: var(--tape-mint); opacity: .92; transform: rotate(-4deg); box-shadow: 0 1px 2px rgba(59,47,34,.12); }
+  .tape::before, .tape::after { content: ''; position: absolute; top: 0; bottom: 0; width: 5px; background: linear-gradient(to bottom, var(--desk) 0 15%, transparent 15% 35%, var(--desk) 35% 50%, transparent 50% 65%, var(--desk) 65% 85%, transparent 85%); }
+  .tape::before { left: -1px; } .tape::after { right: -1px; }
+
+  /* ---------- Nav ---------- */
+  nav { position: sticky; top: 0; z-index: 50; background: rgba(242,237,227,.86); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid rgba(222,214,200,.7); }
+  nav .wrap { display: flex; align-items: center; justify-content: space-between; min-height: 60px; gap: 16px; }
+  .wordmark { font-family: var(--display); font-size: 18px; letter-spacing: -.3px; text-decoration: none; display: flex; align-items: center; gap: 10px; }
+  .wordmark img { width: 30px; height: 30px; border-radius: 8px; }
+  nav ul { display: none; list-style: none; gap: 26px; }
+  nav ul a { font: 700 13px/1 var(--type); text-decoration: none; color: var(--ink-soft); letter-spacing: .02em; }
+  nav ul a:hover { color: var(--ink); }
+  nav .btn { min-height: 40px; padding: 0 16px; font-size: 13px; }
+  @media (min-width: 800px) { nav ul { display: flex; } }
+
+  /* ---------- Hero ---------- */
+  .hero { padding: 48px 0 24px; overflow-x: clip; }
+  .hero .wrap { display: grid; gap: 40px; align-items: center; }
+  @media (min-width: 900px) { .hero { padding: 64px 0 8px; } .hero .wrap { grid-template-columns: 1.05fr .95fr; gap: 24px; } }
+  .hero h1 { font-size: clamp(42px, 6vw, 72px); max-width: 12ch; }
+  .hero .lede { margin-top: 26px; font-size: 17px; line-height: 1.6; }
+  .hero .fine { margin-top: 18px; font-size: 20px; }
+  .hero .fine svg { display: inline; width: 36px; height: 22px; vertical-align: -6px; margin-right: 2px; }
+
+  /* "coming soon" as a strip of tape stuck above the headline */
+  .soon { display: inline-block; margin-bottom: 22px; padding: 7px 16px 6px; background: var(--tape-butter); color: var(--ink); font: 600 19px/1 var(--hand); transform: rotate(-2deg); box-shadow: 0 1px 2px rgba(59,47,34,.14); position: relative; }
+  .soon::before, .soon::after { content: ''; position: absolute; top: 0; bottom: 0; width: 6px; background: linear-gradient(to bottom, var(--desk) 0 18%, transparent 18% 38%, var(--desk) 38% 56%, transparent 56% 76%, var(--desk) 76% 92%, transparent 92%); }
+  .soon::before { left: -1px; } .soon::after { right: -1px; }
+
+  /* The sign-up: a lined slip of paper with one field, stamped to send */
+  .slip { position: relative; margin-top: 30px; max-width: 460px; padding: 18px 18px 16px; background: var(--paper); box-shadow: var(--shadow); transform: rotate(-.6deg); }
+  .slip .tape { left: 22px; top: -11px; width: 70px; background: var(--tape-pink); transform: rotate(-3deg); }
+  .slip label { display: block; padding-bottom: 6px; border-bottom: 1px solid var(--line); font: 600 20px/28px var(--hand); color: var(--ink); }
+  .slip .row { display: flex; gap: 10px; margin-top: 8px; flex-wrap: wrap; }
+  .slip input { flex: 1 1 200px; min-height: 52px; padding: 0 14px; border: 1.5px solid var(--line); border-radius: 10px; background: var(--card); font: 400 16px/1 var(--type); color: var(--ink); }
+  .slip input::placeholder { color: var(--ink-soft); font-style: italic; }
+  .slip input:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; border-color: var(--ink); }
+  .slip .btn { flex: 0 0 auto; }
+  .slip small { display: block; margin-top: 10px; font: 400 12.5px/1.5 var(--type); color: var(--ink-soft); }
+  .slip .done { display: none; font: 600 22px/1.2 var(--hand); color: var(--ink); padding: 6px 0 2px; }
+  .slip.sent .row, .slip.sent small { display: none; }
+  .slip.sent .done { display: block; }
+  .slip.sent .done .rubber { margin: 10px 0 0; font-size: 15px; padding: 7px 10px; transform: rotate(-4deg); }
+  .hero .alt { margin-top: 16px; display: inline-flex; align-items: center; gap: 8px; font: 700 14px/1 var(--type); color: var(--ink); text-decoration: none; min-height: 44px; }
+  .hero .alt:hover { text-decoration: underline; }
+  .hero .alt svg { width: 18px; height: 18px; }
+
+  /* The phone and the loose scraps around it */
+  .scene { position: relative; height: 680px; max-width: 460px; margin: 0 auto; width: 100%; }
+  @media (min-width: 900px) { .scene { height: 640px; max-width: 560px; margin: 0 0 48px auto; } }
+  .phone { position: absolute; left: 50%; top: 40px; width: 268px; margin-left: -134px; padding: 9px; background: #1F1C19; border-radius: 40px; box-shadow: var(--shadow-lift), inset 0 0 0 2px #3a3530; z-index: 3; }
+  .phone .screen { border-radius: 32px; overflow: hidden; background: var(--desk); aspect-ratio: 390 / 844; }
+  .phone .screen img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+  @media (min-width: 900px) { .phone { width: 264px; margin-left: -132px; top: 40px; } }
+  /* Narrow screens: the loose scraps peek out from behind the phone instead of covering it */
+  @media (max-width: 899px) {
+    .scene .scrap { z-index: 2; }
+    .polaroid { width: 112px; left: -6px; top: 30px; }
+    .receipt { width: 118px; right: -6px; top: 250px; }
+    .swatch { width: 132px; left: -4px; bottom: 124px; }
+    .punch { width: 146px; right: -4px; bottom: 92px; }
+    .scene .sticky { right: 6px; top: -6px; width: 104px; }
+  }
+
+  .scrap { position: absolute; box-shadow: var(--shadow); }
+  .polaroid { width: 128px; padding: 8px 8px 26px; background: var(--card); transform: rotate(-9deg); left: 0; top: 10px; z-index: 4; }
+  .polaroid .pic { aspect-ratio: 1; background: linear-gradient(160deg, #AEC4AF 0%, #86A28A 55%, #6F8F7D 100%); position: relative; overflow: hidden; }
+  .polaroid .pic::before { content: ''; position: absolute; left: 10px; top: 12px; width: 24px; height: 24px; border-radius: 50%; background: var(--sticky); }
+  .polaroid .pic::after { content: ''; position: absolute; left: -12%; bottom: -24%; width: 124%; height: 70%; background: #5E7F6C; clip-path: polygon(0 100%, 22% 36%, 44% 68%, 62% 22%, 100% 70%, 100% 100%); }
+  .polaroid .cap { position: absolute; left: 0; right: 0; bottom: 4px; text-align: center; font: 500 15px/1 var(--hand); color: var(--ink-soft); }
+  .polaroid .tape { left: 50%; top: -11px; margin-left: -42px; background: var(--tape-pink); }
+
+  .receipt { right: 0; top: 60px; width: 132px; padding: 12px 12px 18px; background: var(--card); transform: rotate(7deg); z-index: 4; font-size: 11px; line-height: 1.5; clip-path: polygon(0 0, 100% 0, 100% 100%, 92% 96%, 84% 100%, 76% 96%, 68% 100%, 60% 96%, 52% 100%, 44% 96%, 36% 100%, 28% 96%, 20% 100%, 12% 96%, 4% 100%, 0 96%); }
+  .receipt b { display: block; font-size: 10px; letter-spacing: .12em; text-align: center; border-bottom: 1px dashed var(--line); padding-bottom: 6px; margin-bottom: 6px; }
+  .receipt .row { display: flex; justify-content: space-between; color: var(--ink-soft); }
+  .receipt .tot { border-top: 1px dashed var(--line); margin-top: 6px; padding-top: 6px; font-weight: 700; color: var(--ink); }
+
+  .swatch { left: 8px; bottom: 54px; width: 150px; padding: 10px 10px 8px; background: var(--card); transform: rotate(5deg); z-index: 4; }
+  .swatch .chip { height: 44px; border-radius: 4px; background: linear-gradient(135deg, #F9E27C, #F3C48E); }
+  .swatch .cap { display: flex; justify-content: space-between; margin-top: 6px; font-size: 11px; color: var(--ink-soft); }
+  .swatch .cap i { font-family: var(--hand); font-style: normal; font-size: 16px; color: var(--ink); }
+
+  .punch { right: 4px; bottom: 30px; width: 164px; padding: 10px 12px 12px; background: var(--p-sky); transform: rotate(-6deg); z-index: 4; border-radius: 6px; }
+  .punch .name { font: 400 12px/1 var(--display); margin-bottom: 8px; }
+  .punch .dots { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  .punch .dots span { aspect-ratio: 1; border-radius: 50%; border: 1.5px dashed var(--denim-deep); display: grid; place-items: center; font-size: 10px; color: var(--stamp-deep); }
+  .punch .dots span.on { border-style: solid; background: var(--card); }
+
+  .sticky { position: absolute; width: 118px; min-height: 96px; padding: 12px; background: var(--sticky); box-shadow: var(--shadow); font: 500 18px/1.15 var(--hand); color: var(--ink); }
+  .sticky::after { content: ''; position: absolute; right: 0; bottom: 0; border-style: solid; border-width: 0 0 18px 18px; border-color: transparent transparent var(--desk) var(--sticky-edge); }
+  .scene .sticky { right: 20px; top: -10px; transform: rotate(4deg); z-index: 2; }
+  /* Wide screens: scraps sit in the margins beside the phone so its screen stays readable */
+  @media (min-width: 900px) {
+    .polaroid { width: 112px; left: -8px; top: 60px; }
+    .receipt { width: 116px; right: -8px; top: 250px; }
+    .scene .sticky { width: 104px; right: -4px; top: 30px; }
+    .swatch { width: 120px; left: -8px; bottom: 120px; }
+    .punch { width: 138px; right: -14px; bottom: 34px; }
+  }
+
+  /* ---------- Section plumbing ---------- */
+  section { padding: 64px 0; }
+  @media (min-width: 900px) { section { padding: 80px 0; } }
+  .section-head { max-width: 640px; }
+  /* One size for every section title (Private was falling back to body size) */
+  section h2.headline { font-size: clamp(34px, 5vw, 56px); }
+  .section-head p { margin-top: 18px; font-size: 16px; }
+
+  /* ---------- How it works ---------- */
+  .steps { margin-top: 44px; display: grid; gap: 28px; }
+  @media (min-width: 760px) { .steps { grid-template-columns: repeat(3, 1fr); gap: 24px; } }
+  /* The sticky labels are taped to the top edge of each screenshot, not over the app's title */
+  .step { position: relative; padding-top: 44px; }
+  .step .shot { border-radius: 24px; overflow: hidden; background: var(--desk-deep); box-shadow: var(--shadow); aspect-ratio: 390 / 560; }
+  .step .shot img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+  .step .note { position: absolute; top: 0; left: -6px; z-index: 2; width: 160px; min-height: 0; padding: 10px 12px; font-size: 19px; transform: rotate(-2deg); }
+  .step:nth-child(2) .note { transform: rotate(1.5deg); }
+  .step .note::after { display: none; }
+  .step .note .n { font: 400 11px/1 var(--display); color: var(--stamp); display: block; margin-bottom: 3px; }
+  .step p { margin-top: 20px; color: var(--ink-soft); font-size: 15px; max-width: 34ch; }
+  .step p b { color: var(--ink); }
+  .plus { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--stamp-deep); color: #fff; font: 700 15px/1 var(--type); vertical-align: -5px; }
+
+  /* ---------- Features board ---------- */
+  /* Cards in a row share one height so the board reads as rows, not a ragged pile */
+  .board { margin-top: 48px; display: grid; gap: 24px; grid-template-columns: repeat(2, 1fr); align-items: stretch; }
+  @media (min-width: 760px) { .board { grid-template-columns: repeat(4, 1fr); gap: 28px; } }
+  .board > * { position: relative; }
+  .board h3 { font: 400 17px/1.1 var(--display); margin-bottom: 8px; }
+  .board p { font-size: 13.5px; line-height: 1.5; color: var(--ink-soft); }
+  .board .what { margin-top: 12px; }
+
+  .pockets { grid-column: span 2; padding: 20px 18px 16px; background: var(--card); box-shadow: var(--shadow); --r: -1deg; }
+  .folders { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+  .folder { position: relative; aspect-ratio: 1 / .82; }
+  .folder .back { position: absolute; inset: 0 0 auto 0; height: 100%; border-radius: 8px 8px 6px 6px; }
+  .folder .back::before { content: ''; position: absolute; left: 0; top: -9px; width: 42%; height: 12px; border-radius: 6px 6px 0 0; background: inherit; }
+  .folder .front { position: absolute; left: 0; right: 0; bottom: 0; height: 66%; border-radius: 6px; box-shadow: 0 -1px 2px rgba(59,47,34,.08); }
+  .folder .front::after { content: ''; position: absolute; inset: 5px; border: 1.5px dashed rgba(255,255,255,.7); border-radius: 4px; }
+  .folder span { position: absolute; left: 0; right: 0; bottom: -22px; text-align: center; font: italic 400 15px/1 var(--serif); }
+  .folders { margin-bottom: 26px; }
+  .era { margin-top: 10px; display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px 6px 8px; background: var(--p-lilac); border-radius: 999px; font: 700 12px/1 var(--type); }
+  .era i { width: 10px; height: 10px; border-radius: 50%; background: var(--p-lilac-b); }
+
+  .moods { padding: 16px 16px 14px; background: var(--card); box-shadow: var(--shadow); --r: 2deg; }
+  .moods .strip { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  .moods .strip span { aspect-ratio: 1 / 1.6; border-radius: 3px; }
+  .moods .strip small { grid-column: span 7; display: flex; justify-content: space-between; font: 500 13px/1 var(--hand); color: var(--ink-soft); margin-top: 4px; }
+
+  .habits { padding: 16px; background: var(--p-butter); box-shadow: var(--shadow); --r: -2.5deg; border-radius: 6px; }
+  .habits .dots { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; margin-bottom: 6px; }
+  .habits .dots span { aspect-ratio: 1; border-radius: 50%; border: 1.5px dashed var(--p-butter-b); display: grid; place-items: center; font-size: 12px; color: var(--stamp-deep); }
+  .habits .dots span.on { border-style: solid; background: var(--card); }
+  .habits .goal { font: 500 14px/1 var(--hand); color: var(--on-butter); margin-top: 8px; }
+  .habits p, .todo .morning, .todo li.done { color: var(--on-butter); }
+
+  .money { padding: 14px 14px 20px; background: var(--card); box-shadow: var(--shadow); --r: 1.5deg; font-size: 12px; clip-path: polygon(0 0, 100% 0, 100% 100%, 94% 97%, 88% 100%, 82% 97%, 76% 100%, 70% 97%, 64% 100%, 58% 97%, 52% 100%, 46% 97%, 40% 100%, 34% 97%, 28% 100%, 22% 97%, 16% 100%, 10% 97%, 4% 100%, 0 97%); }
+  .money .row { display: flex; justify-content: space-between; color: var(--ink-soft); line-height: 1.7; }
+  .money .tot { border-top: 1px dashed var(--line); margin-top: 6px; padding-top: 6px; font-weight: 700; color: var(--ink); }
+  .money .scan { margin-top: 10px; font: 500 14px/1.1 var(--hand); color: var(--stamp-deep); }
+
+  .todo { padding: 16px; background: var(--sticky); box-shadow: var(--shadow); --r: -1.5deg; }
+  .todo ul { list-style: none; font: 500 18px/1.35 var(--hand); color: var(--ink); }
+  .todo li::before { content: '☐ '; } .todo li.done::before { content: '☑ '; } .todo li.done { text-decoration: line-through; color: var(--ink-soft); }
+  .todo .morning { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--sticky-edge); font-size: 12px; color: var(--ink-soft); }
+
+  /* Ruled paper: every text line is 26px and the rules start at the padding edge, so words sit on the lines */
+  .ask { grid-column: span 2; padding: 16px 18px 26px; background: var(--paper); background-image: repeating-linear-gradient(transparent 0 25px, var(--line) 25px 26px); background-position: 0 16px; box-shadow: var(--shadow); --r: 1deg; }
+  .ask h3 { line-height: 26px; margin-bottom: 0; }
+  .ask .q { font: 500 22px/26px var(--hand); color: var(--ink); }
+  .ask .a { margin-top: 0; font-size: 13px; line-height: 26px; color: var(--ink-soft); }
+  .ask .a b { color: var(--ink); }
+
+  .us { grid-column: span 2; padding: 18px; background: var(--card); box-shadow: var(--shadow); --r: -1.2deg; display: grid; grid-template-columns: 1fr auto; gap: 14px; }
+  .us .stampbox { width: 54px; height: 64px; border: 1.5px dashed var(--line); display: grid; place-items: center; font: italic 400 13px/1.2 var(--serif); color: var(--ink-soft); text-align: center; padding: 4px; }
+  .us .clocks { display: flex; gap: 10px; margin-top: 10px; font-size: 12px; color: var(--ink-soft); }
+  .us .clocks span { padding: 4px 9px; border-radius: 999px; background: var(--paper-warm); }
+
+  .board .lead { grid-column: 1 / -1; font: 500 22px/1.25 var(--hand); color: var(--ink-soft); }
+  @media (min-width: 760px) { .board .lead { grid-column: span 2; align-self: center; max-width: 30ch; padding-left: 8px; } }
+  /* Phones: one column. Placed after the span rules so it wins over .pockets/.ask/.us */
+  @media (max-width: 599px) { .board { grid-template-columns: 1fr; } .board > .pockets, .board > .ask, .board > .us { grid-column: auto; } }
+
+
+  /* ---------- Line-art phone ---------- */
+  .walk .wrap { display: grid; gap: 28px; align-items: center; }
+  /* Two equal halves, phone centred in its half, so the copy and the drawing balance */
+  @media (min-width: 900px) { .walk .wrap { grid-template-columns: 1fr 1fr; gap: 56px; } }
+  /* Large screens: the phone pins in place while you scroll, and the scroll drives its demo */
+  @media (min-width: 900px) and (min-height: 760px) {
+    .walk { height: 240vh; padding: 0; }
+    .walk .wrap { position: sticky; top: 60px; min-height: calc(100vh - 60px); }
+  }
+  .walk-copy .prose { margin-top: 16px; }
+  .walk-copy h2 + .prose { margin-top: 22px; }
+  .la-device { width: 100%; max-width: 380px; margin: 0 auto; filter: drop-shadow(0 18px 24px rgba(59,47,34,.16)) drop-shadow(0 3px 5px rgba(59,47,34,.10)); }
+  .la-device svg { display: block; width: 100%; height: auto; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; }
+  .la-device .pp { fill: var(--paper); }
+  .la-device [role="button"]:focus-visible { outline: 2.5px solid var(--ink); outline-offset: 2px; }
+  .la-hint { margin-top: 26px; }
+  .la-device .la-pulse { transform-box: fill-box; transform-origin: center; animation: la-pulse 2s ease-out infinite; }
+  @keyframes la-pulse { from { opacity: .7; transform: scale(1); } to { opacity: 0; transform: scale(1.7); } }
+
+  /* ---------- Private ---------- */
+  .private .wrap { display: grid; gap: 32px; align-items: center; }
+  @media (min-width: 900px) { .private .wrap { grid-template-columns: 1fr 1fr; gap: 56px; } }
+  .private ul { margin-top: 22px; list-style: none; display: grid; gap: 12px; max-width: 46ch; }
+  .private li { position: relative; padding-left: 24px; color: var(--ink-soft); font-size: 15px; }
+  .private li b { color: var(--ink); }
+  .private li::before { content: ''; position: absolute; left: 0; top: 7px; width: 10px; height: 10px; border-radius: 50%; background: var(--p-sage-b); }
+  .private li.online::before { background: var(--denim); }
+  .stampcard { position: relative; margin: 0 auto; max-width: 380px; padding: 32px 28px; background: var(--card); box-shadow: var(--shadow); --r: -2deg; }
+  .stampcard .tape { left: 50%; top: -11px; margin-left: -42px; background: var(--tape-blue); transform: rotate(3deg); }
+  .stampcard p { font-size: 14px; color: var(--ink-soft); line-height: 1.7; }
+  .rubber { display: inline-block; margin-top: 22px; padding: 10px 14px; border: 3px solid var(--stamp); border-radius: 6px; color: var(--stamp); font: 400 20px/1 var(--display); letter-spacing: .04em; transform: rotate(-7deg); opacity: .9; -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1.6 -.2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E"); mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1.6 -.2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E"); }
+
+  /* ---------- Get it ---------- */
+  .get { padding-bottom: 40px; }
+  .get .card { position: relative; padding: 40px 24px; background: var(--paper); box-shadow: var(--shadow); display: grid; gap: 28px; align-items: center; }
+  @media (min-width: 900px) { .get .card { grid-template-columns: 1.1fr .9fr; padding: 56px; } }
+  .get .card .tape { left: 28px; top: -11px; background: var(--tape-butter); }
+  .get .card > div > .prose { margin-top: 22px; }
+  .get .later { margin-top: 28px; }
+  .get .cta { margin-top: 26px; display: flex; flex-wrap: wrap; gap: 12px; }
+  .get .later { list-style: none; display: grid; gap: 10px; }
+  .get .later li { display: flex; gap: 12px; align-items: baseline; font-size: 15px; color: var(--ink-soft); }
+  .get .later li b { color: var(--ink); min-width: 92px; }
+  .get .later li .when { font: 500 16px/1 var(--hand); color: var(--stamp-deep); }
+  .get .slip { margin-top: 22px; }
+  /* Fixed phone shape so the frame doesn't resize when the poster swaps for the video */
+  .get video { display: block; width: 100%; max-width: 260px; aspect-ratio: 9 / 16; height: auto; object-fit: cover; object-position: top; margin: 0 auto; border-radius: 26px; background: #1F1C19; padding: 7px; box-shadow: var(--shadow-lift); }
+
+  footer { padding: 36px 0 48px; }
+  footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 14px; align-items: center; font-size: 13px; color: var(--ink-soft); }
+  footer a { text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+  footer .made { font: 500 19px/1 var(--hand); }
+
+  /* Single page-load moment: the hero scraps settle onto the desk */
+  @keyframes settle { from { opacity: 0; transform: translate3d(var(--dx, 0px), calc(var(--dy, 0px) - 40px), calc(var(--z, 0px) + 160px)) rotate(var(--r, 0deg)); } to { opacity: 1; transform: translate3d(var(--dx, 0px), var(--dy, 0px), var(--z, 0px)) rotate(var(--r, 0deg)); } }
+  .scene .scrap, .scene .sticky { animation: settle .7s cubic-bezier(.2,.8,.2,1) both; }
+  .scene .polaroid { --r: -9deg; animation-delay: .15s; }
+  .scene .receipt { --r: 7deg; animation-delay: .3s; }
+  .scene .swatch { --r: 5deg; animation-delay: .45s; }
+  .scene .punch { --r: -6deg; animation-delay: .6s; }
+  .scene .sticky { --r: 4deg; animation-delay: .05s; }
+
+  /* =====================================================================
+     Depth. The desk is a real surface: scraps sit at different heights,
+     the whole scene leans with the pointer (or the phone's tilt sensor),
+     and anything that looks like paper can be picked up.
+     ===================================================================== */
+
+  /* Desk lamp: a pool of warm light that follows the cursor */
+  @media (hover: hover) and (pointer: fine) {
+    body::after { content: ''; position: fixed; inset: 0; z-index: 40; pointer-events: none; background: radial-gradient(640px circle at var(--lx, 50%) var(--ly, 30%), rgba(255,247,224,.5), rgba(255,247,224,0) 70%); mix-blend-mode: soft-light; }
+  }
+
+  /* Hero scene in 3D */
+  .scene { perspective: 1100px; perspective-origin: 50% 40%; }
+  .scene-inner { position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); will-change: transform; }
+  .scene .phone { transform: translateZ(40px); transform-style: preserve-3d; }
+  .scene .phone::before { content: ''; position: absolute; inset: 6% 2% -4% 2%; border-radius: 40px; background: rgba(59,47,34,.28); filter: blur(22px); transform: translateZ(-70px); z-index: -1; }
+  .phone .screen { position: relative; }
+  .phone .screen::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(112deg, rgba(255,255,255,0) 38%, rgba(255,255,255,.22) 50%, rgba(255,255,255,0) 62%); background-size: 260% 100%; background-position: var(--gx, 50%) 0; }
+
+  .scene .scrap, .scene .sticky {
+    transform: translate3d(var(--dx, 0px), var(--dy, 0px), var(--z, 0px)) translateZ(var(--lift, 0px)) rotate(var(--r, 0deg));
+    cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none;
+    transition: box-shadow .2s ease, --lift .2s ease;
+  }
+  .scene .scrap:hover, .scene .sticky:hover { outline: 1.5px dashed rgba(37,34,31,.35); outline-offset: 5px; --lift: 14px; box-shadow: 0 10px 18px rgba(59,47,34,.18), 0 2px 4px rgba(59,47,34,.10); }
+  .scene .lift, .scene .lift:hover { --lift: 70px; cursor: grabbing; box-shadow: 0 34px 44px rgba(59,47,34,.22), 0 6px 10px rgba(59,47,34,.10); animation: none; }
+  .scene .scrap:focus-visible, .scene .sticky:focus-visible { outline: 3px solid var(--ink); outline-offset: 4px; }
+  .hint-pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px 6px 10px; border-radius: 999px; background: var(--card); box-shadow: var(--shadow); font: 600 18px/1.1 var(--hand); color: var(--ink); white-space: nowrap; }
+  .hint-pill svg { width: 20px; height: 20px; flex: none; color: var(--stamp-deep); }
+  .scene .hint { position: absolute; left: 50%; bottom: -48px; transform: translateX(-50%); z-index: 6; pointer-events: none; transition: opacity .4s ease; }
+  .scene.touched .hint { opacity: 0; }
+  @media (max-width: 899px) { .scene { margin-bottom: 64px; } }
+
+  /* Cards lean toward the pointer and catch the light */
+  [data-tilt] { transform: perspective(900px) rotateX(var(--tx, 0deg)) rotateY(var(--ty, 0deg)) rotate(var(--r, 0deg)) translateZ(var(--pop, 0px)); transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease; }
+  [data-tilt].tilting { --pop: 14px; transition: transform .08s linear, box-shadow .2s ease; }
+  .board > [data-tilt].tilting, .stampcard.tilting { box-shadow: var(--shadow-lift); }
+  [data-tilt] > .sheen { position: absolute; inset: 0; pointer-events: none; border-radius: inherit; opacity: 0; transition: opacity .3s ease; background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,.42), rgba(255,255,255,0) 62%); mix-blend-mode: soft-light; }
+  [data-tilt].tilting > .sheen { opacity: 1; }
+  .step[data-tilt] > .sheen { border-radius: 24px; }
+
+  /* Pocket folders open and show what's inside */
+  .folder { perspective: 300px; }
+  .folder .front { transform-origin: 50% 100%; transition: transform .5s cubic-bezier(.2,.8,.2,1); }
+  .folder .back::after { content: ''; position: absolute; left: 14%; right: 14%; top: 14%; height: 62%; background: var(--card); border-radius: 3px; box-shadow: 0 1px 2px rgba(59,47,34,.18); transition: transform .5s cubic-bezier(.2,.8,.2,1); }
+  .pockets:hover .folder .front, .pockets.open .folder .front { transform: rotateX(-34deg); }
+  .pockets:hover .folder .back::after, .pockets.open .folder .back::after { transform: translateY(-34%) rotate(-5deg); }
+  .folder:nth-child(even) .back::after { background: var(--sticky); }
+  .pockets:hover .folder:nth-child(even) .back::after, .pockets.open .folder:nth-child(even) .back::after { transform: translateY(-30%) rotate(6deg); }
+  .folder:nth-child(2) .front, .folder:nth-child(2) .back::after { transition-delay: .05s; }
+  .folder:nth-child(3) .front, .folder:nth-child(3) .back::after { transition-delay: .1s; }
+  .folder:nth-child(4) .front, .folder:nth-child(4) .back::after { transition-delay: .15s; }
+  .folder:nth-child(5) .front, .folder:nth-child(5) .back::after { transition-delay: .2s; }
+  .folder:nth-child(6) .front, .folder:nth-child(6) .back::after { transition-delay: .25s; }
+  .pockets { cursor: pointer; }
+
+  /* Sections lift off the desk as they scroll in; the stamp comes down hard */
+  @media (prefers-reduced-motion: no-preference) {
+    .js [data-reveal] { opacity: 0; transform: perspective(1000px) rotateX(16deg) translateY(36px) translateZ(-60px); transform-origin: 50% 0; transition: opacity .7s ease, transform .9s cubic-bezier(.2,.8,.2,1); }
+    .js [data-reveal].in { opacity: 1; transform: none; }
+    .js .stamp-wrap .rubber { opacity: 0; transform: rotate(-16deg) scale(2.8); transition: transform .32s cubic-bezier(.5,0,.3,1.5) .75s, opacity .12s ease .75s; }
+    .js .stamp-wrap.in .rubber { opacity: .9; transform: rotate(-7deg) scale(1); }
+    .js .stamp-wrap.in .stampcard { animation: thud .32s ease 1.02s; }
+    @keyframes thud { 0% { translate: 0 0; } 30% { translate: 0 5px; } 60% { translate: 0 -2px; } 100% { translate: 0 0; } }
+  }
+  @property --lift { syntax: '<length>'; inherits: false; initial-value: 0px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="wordmark" href="#top"><img src="img/icon.png" alt="" width="30" height="30">pocketful</a>
+    <ul>
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#tuck">What you can tuck in</a></li>
+      <li><a href="#private">Private by default</a></li>
+    </ul>
+    <a class="btn btn-ink" href="#notify">Save me a page</a>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <span class="soon">coming soon to Android</span>
+      <h1 class="headline">A scrapbook journal <i>for your whole life.</i></h1>
+      <p class="lede prose">Tap <span class="plus">+</span> to tuck in a scrap: a photo, a note, a mood, a receipt. It lands on today’s page. Your scraps file themselves into monthly pockets, and habits, moods, money and plans live on the same pages. The small stuff and the big stuff end up in one place.</p>
+
+      <!-- Sign-up slip. Point the form at a free form endpoint (Formspree, Tally, Web3Forms all have free tiers)
+           by replacing YOUR_FORM_ID. Until then it opens an email instead, so nothing is lost. -->
+      <form class="slip" id="notify" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        <span class="tape"></span>
+        <label for="email">Save me a page. Tell me when it’s out.</label>
+        <div class="row">
+          <input id="email" name="email" type="email" autocomplete="email" inputmode="email" required placeholder="you@somewhere.com">
+          <button class="btn btn-stamp" type="submit">Save me a page</button>
+        </div>
+        <small>One email when Pocketful is out, and nothing else. No account, no list to unsubscribe from twice.</small>
+        <div class="done" aria-live="polite">Tucked in. We’ll write once, when it’s ready.<br><span class="rubber">SAVED</span></div>
+      </form>
+
+      <a class="alt" href="#tour"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m10 8 5 4-5 4z"/></svg>Watch the two-minute tour</a>
+      <p class="fine hand"><svg viewBox="0 0 36 22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M2 4c8 14 22 14 32 6M28 6l6 4-5 5"/></svg>free, no account needed, and your pages stay on your phone</p>
+    </div>
+
+    <div class="scene" aria-label="The Pocketful today page, with a few scraps around it. You can pick the scraps up and move them.">
+      <div class="scene-inner">
+        <div class="sticky" style="--z:20px">buy marigolds<br>call mum ✓</div>
+        <div class="scrap polaroid" style="--z:110px"><span class="tape"></span><div class="pic"></div><span class="cap">lake, monsoon smell</span></div>
+        <div class="scrap receipt" style="--z:80px"><b>POTTERY CLASS</b><div class="row"><span>wonky bowl</span><span>45</span></div><div class="row"><span>clay, extra</span><span>6</span></div><div class="row tot"><span>total</span><span>51</span></div></div>
+        <div class="phone"><div class="screen"><img src="img/today.jpg" alt="Today's page in Pocketful: a photo, a note, a mood and a spend tucked onto one page" width="390" height="844" draggable="false"></div></div>
+        <div class="scrap swatch" style="--z:130px"><div class="chip"></div><div class="cap"><span>today felt</span><i>sunny, proud</i></div></div>
+        <div class="scrap punch" style="--z:95px"><div class="name">Drink water</div><div class="dots"><span class="on">✓</span><span class="on">✓</span><span class="on">✓</span><span class="on">✓</span><span class="on">✓</span><span></span><span></span></div></div>
+      </div>
+      <p class="hint" aria-hidden="true"><span class="hint-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13V5.5a1.5 1.5 0 0 1 3 0V12m0-1.5v-2a1.5 1.5 0 0 1 3 0V12m0-1v-.5a1.5 1.5 0 0 1 3 0V12m0-.5a1.5 1.5 0 0 1 3 0V15a6 6 0 0 1-6 6h-1.5a6 6 0 0 1-5-2.7L4.6 14.6a1.6 1.6 0 0 1 2.6-1.9L8 14"/></svg>drag the scraps around</span></p>
+    </div>
+  </div>
+</header>
+
+<section id="walk" class="walk" aria-labelledby="walk-title">
+  <div class="wrap">
+    <div class="walk-copy" data-reveal>
+      <h2 class="headline" id="walk-title">Tap +, <i>tuck in a scrap.</i></h2>
+      <p class="prose">This is your phone, drawn in ink. Tap the orange + and pick what happened. The scrap draws itself, then lands on today’s page.</p>
+      <p class="prose">Tap a scrap to see its private back. Tap Pockets and the whole page files itself into this month.</p>
+      <p class="la-hint"><span class="hint-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13V5.5a1.5 1.5 0 0 1 3 0V12m0-1.5v-2a1.5 1.5 0 0 1 3 0V12m0-1v-.5a1.5 1.5 0 0 1 3 0V12m0-.5a1.5 1.5 0 0 1 3 0V15a6 6 0 0 1-6 6h-1.5a6 6 0 0 1-5-2.7L4.6 14.6a1.6 1.6 0 0 1 2.6-1.9L8 14"/></svg>scroll to play it, or tap the orange + yourself</span></p>
+    </div>
+    <div class="la-device" data-line-art></div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <h2 class="headline">One button, <i>then it files itself.</i></h2>
+      <p class="prose">There is nothing to set up. Open the app, tuck in your first scrap, and the pockets grow on their own.</p>
+    </div>
+    <div class="steps" data-reveal>
+      <div class="step" data-tilt>
+        <div class="sticky note"><span class="n">1</span>tap the orange +</div>
+        <div class="shot"><img src="img/capture.jpg" alt="The capture sheet: note, mood, spend, to-do, photo and scan" loading="lazy"></div>
+        <p>It sits at the end of the bar on every screen. <b>Snap, jot, log a mood or a spend</b>, then tuck it in. A draft survives if you close the sheet by accident.</p>
+      </div>
+      <div class="step" data-tilt>
+        <div class="sticky note"><span class="n">2</span>it lands on today</div>
+        <div class="shot"><img src="img/today.jpg" alt="Today's page with scraps arranged like a collage" loading="lazy"></div>
+        <p>Every scrap is a piece of paper on <b>today’s page</b>. Flip one over to write on the back. The back stays private even if you share the front.</p>
+      </div>
+      <div class="step" data-tilt>
+        <div class="sticky note"><span class="n">3</span>months become pockets</div>
+        <div class="shot"><img src="img/pockets.jpg" alt="Pockets: the year as twelve folders, plus named eras" loading="lazy"></div>
+        <p>The year is twelve folders. <b>Name an era</b>, a trip, exam week, a new job, and those days get a pocket of their own.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="tuck">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <h2 class="headline">What you can <i>tuck in.</i></h2>
+      <p class="prose">Everything in Pocketful is a scrap. A mood is a colour swatch, a habit is a stamp, a spend is a receipt. So they all fit on the same page.</p>
+    </div>
+
+    <div class="board" data-reveal>
+      <div class="pockets" data-tilt>
+        <h3>Pockets</h3>
+        <div class="folders">
+          <div class="folder"><div class="back" style="background:var(--p-pink-b)"></div><div class="front" style="background:var(--p-pink)"></div><span>Jan</span></div>
+          <div class="folder"><div class="back" style="background:var(--p-sage-b)"></div><div class="front" style="background:var(--p-sage)"></div><span>Feb</span></div>
+          <div class="folder"><div class="back" style="background:var(--p-apricot-b)"></div><div class="front" style="background:var(--p-apricot)"></div><span>Mar</span></div>
+          <div class="folder"><div class="back" style="background:var(--p-butter-b)"></div><div class="front" style="background:var(--p-butter)"></div><span>Apr</span></div>
+          <div class="folder"><div class="back" style="background:var(--p-lilac-b)"></div><div class="front" style="background:var(--p-lilac)"></div><span>May</span></div>
+          <div class="folder"><div class="back" style="background:var(--p-sky-b)"></div><div class="front" style="background:var(--p-sky)"></div><span>Jun</span></div>
+        </div>
+        <p>Every month gets a pocket, automatically. An era is a pocket you name yourself.</p>
+        <span class="era"><i></i>Goa trip · 9 days</span>
+      </div>
+
+      <div class="moods" data-tilt>
+        <h3>Moods</h3>
+        <div class="strip">
+          <span style="background:#F9E27C"></span><span style="background:#C3D8F6"></span><span style="background:#C2E8D0"></span><span style="background:#F9E27C"></span><span style="background:#8C9BB4"></span><span style="background:#F8BFCD"></span><span style="background:#F9E27C"></span>
+          <small><span>mon</span><span>sun</span></small>
+        </div>
+        <p class="what">A colour swatch for how today felt, plus one word. A week makes a stripe.</p>
+      </div>
+
+      <div class="habits" data-tilt>
+        <h3>Habits</h3>
+        <div class="dots"><span class="on">✓</span><span class="on">✓</span><span></span><span class="on">✓</span><span class="on">✓</span><span></span><span></span></div>
+        <div class="goal">walk · 4 days a week, done 4</div>
+        <p class="what">A stamp for each day you showed up. Goals can be “three times a week”, not every day.</p>
+      </div>
+
+      <div class="money" data-tilt>
+        <h3>Money</h3>
+        <div class="row"><span>chai with @Sam</span><span>4</span></div>
+        <div class="row"><span>cab to #studio</span><span>6</span></div>
+        <div class="row"><span>sketchbook</span><span>22</span></div>
+        <div class="row tot"><span>this week</span><span>32</span></div>
+        <div class="scan">scan a receipt, it reads the total</div>
+        <p class="what">Type “12 lunch” and it’s filed. Spends sit on the page they belong to.</p>
+      </div>
+
+      <div class="todo" data-tilt>
+        <h3>To-dos</h3>
+        <ul><li class="done">send invoice</li><li>book pottery</li><li>water the fern</li></ul>
+        <div class="morning">Morning Note at 7:30, if you want it: what’s due, the era you’re in, a page from a year ago.</div>
+      </div>
+
+      <div class="ask" data-tilt>
+        <h3>Ask your pocket</h3>
+        <div class="q">when did I last see @Maya?</div>
+        <p class="a"><b>Tuesday,</b> sunset from the terrace. Before that, dinner on the 3rd. Every answer shows its scraps. No AI needed, it runs on the phone.</p>
+      </div>
+
+      <div class="us" data-tilt>
+        <div>
+          <h3>Us</h3>
+          <p>A space for two. Days side by side, each other’s mood as weather, postcards, and the Fridge for chores and shared lists.</p>
+          <div class="clocks"><span>you · 9:40</span><span>them · 17:10</span></div>
+        </div>
+        <div class="stampbox">post<br>card</div>
+      </div>
+
+      <p class="lead">…and photos, notes and sticker cut-outs from anything you point the camera at.</p>
+    </div>
+  </div>
+</section>
+
+<section id="private" class="private">
+  <div class="wrap">
+    <div>
+      <h2 class="headline">Private <i>by default.</i></h2>
+      <ul>
+        <li><b>Stays on your phone:</b>&nbsp;every scrap, photo and sticker, the back of each scrap, your habits, eras and goals. Ask and Morning Note count things locally, without a server.</li>
+        <li class="online"><b>Goes online only when you act:</b>&nbsp;signing in is optional. Share with Us sends that one scrap’s front, never its back.</li>
+        <li><b>No account to make.</b>&nbsp;No ads, no tracking, nothing to pay for.</li>
+      </ul>
+    </div>
+    <div data-reveal class="stamp-wrap"><div class="stampcard" data-tilt>
+      <span class="tape"></span>
+      <p>A journal is the one place you should be able to write anything. So Pocketful doesn’t read your pages, doesn’t upload them, and doesn’t ask you to sign up before you can start.</p>
+      <span class="rubber">STAYS ON THIS PHONE</span>
+    </div></div>
+  </div>
+</section>
+
+<section id="get" class="get">
+  <div class="wrap">
+    <div class="card" data-reveal>
+      <span class="tape"></span>
+      <div>
+        <h2 class="headline">Your first page <i>is almost ready.</i></h2>
+        <p class="prose">Pocketful is free, with no store and no account. Leave your email and we’ll send one note the day it’s out.</p>
+        <form class="slip" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+          <span class="tape"></span>
+          <label for="email2">Save me a page. Tell me when it’s out.</label>
+          <div class="row">
+            <input id="email2" name="email" type="email" autocomplete="email" inputmode="email" required placeholder="you@somewhere.com">
+            <button class="btn btn-stamp" type="submit">Save me a page</button>
+          </div>
+          <small>One email when Pocketful is out, and nothing else.</small>
+          <div class="done" aria-live="polite">Tucked in. We’ll write once, when it’s ready.<br><span class="rubber">SAVED</span></div>
+        </form>
+        <ul class="later">
+          <li><b>Android</b><span class="when">first, Pixel tested</span></li>
+          <li><b>iPhone</b><span class="when">after that</span></li>
+          <li><b>Laptop</b><span class="when">after that</span></li>
+        </ul>
+      </div>
+      <video id="tour" controls playsinline preload="metadata" poster="img/today.jpg" aria-label="A two-minute tour of Pocketful on a phone">
+        <source src="pocketful-how-to-mobile.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span class="made hand">made in Bengaluru, one scrap a day</span>
+    <span><a href="https://github.com/henanmaliyakkal-creator/pocketful-site">Source on GitHub</a> &nbsp;·&nbsp; <a href="mailto:henanmaliyakkal@gmail.com">Say hello</a></span>
+  </div>
+</footer>
+
+<script type="module" src="line-art/dist/pocket-phone.js?v=3"></script>
+
+<script>
+  // Sign-up slip. With a real form endpoint it posts quietly and shows the stamped reply.
+  // With the placeholder still in place it falls back to an email, so the page works from day one.
+  Array.prototype.forEach.call(document.querySelectorAll('form.slip'), function (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var email = form.email.value.trim();
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+      if (form.action.indexOf('YOUR_FORM_ID') !== -1) {
+        location.href = 'mailto:henanmaliyakkal@gmail.com?subject=' + encodeURIComponent('Save me a page') + '&body=' + encodeURIComponent('Tell me when Pocketful is out: ' + email);
+        form.classList.add('sent');
+        return;
+      }
+      var btn = form.querySelector('button');
+      btn.disabled = true;
+      fetch(form.action, { method: 'POST', headers: { 'Accept': 'application/json' }, body: new FormData(form) })
+        .then(function (r) { if (!r.ok) throw new Error(); form.classList.add('sent'); })
+        .catch(function () { btn.disabled = false; alert('That didn’t send. Try again, or email henanmaliyakkal@gmail.com.'); });
+    });
+  });
+</script>
+
+<script>
+  // Depth and touch: parallax desk, scraps you can pick up, cards that lean toward the pointer.
+  (function () {
+    var root = document.documentElement;
+    root.classList.add('js');
+    var fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+    var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Desk lamp
+    if (fine) document.addEventListener('pointermove', function (e) {
+      root.style.setProperty('--lx', e.clientX + 'px');
+      root.style.setProperty('--ly', e.clientY + 'px');
+    }, { passive: true });
+
+    // Hero: the whole scene leans with the pointer, or with the phone's tilt sensor
+    var hero = document.querySelector('.hero'), scene = document.querySelector('.scene'), inner = document.querySelector('.scene-inner');
+    var tx = 0, ty = 0, cx = 0, cy = 0, raf = null, drag = null;
+    function tick() {
+      cx += (tx - cx) * 0.08; cy += (ty - cy) * 0.08;
+      inner.style.setProperty('--rx', cy.toFixed(2) + 'deg');
+      inner.style.setProperty('--ry', cx.toFixed(2) + 'deg');
+      inner.style.setProperty('--gx', (50 - cx * 5).toFixed(1) + '%');
+      raf = (Math.abs(tx - cx) > 0.02 || Math.abs(ty - cy) > 0.02) ? requestAnimationFrame(tick) : null;
+    }
+    function aim(x, y) { tx = x * 11; ty = -y * 8; if (!raf) raf = requestAnimationFrame(tick); }
+    function clamp(n) { return Math.max(-1, Math.min(1, n)); }
+    if (inner && !reduce) {
+      if (fine) {
+        hero.addEventListener('pointermove', function (e) {
+          if (drag) return;
+          var r = hero.getBoundingClientRect();
+          aim((e.clientX - r.left) / r.width * 2 - 1, (e.clientY - r.top) / r.height * 2 - 1);
+        }, { passive: true });
+        hero.addEventListener('pointerleave', function () { aim(0, 0); });
+      } else if ('DeviceOrientationEvent' in window) {
+        window.addEventListener('deviceorientation', function (e) {
+          if (e.gamma == null || drag) return;
+          aim(clamp(e.gamma / 28), clamp((e.beta - 45) / 28));
+        }, { passive: true });
+      }
+    }
+
+    // Hero: pick a scrap up, move it, put it down. Arrow keys work too.
+    if (inner) {
+      var top = 10;
+      var scraps = inner.querySelectorAll('.scrap, .sticky');
+      Array.prototype.forEach.call(scraps, function (el) { el.tabIndex = 0; el.setAttribute('role', 'img'); });
+      function shift(el, dx, dy) {
+        el.style.setProperty('--dx', dx + 'px'); el.style.setProperty('--dy', dy + 'px');
+      }
+      function pos(el) { return { x: parseFloat(el.style.getPropertyValue('--dx')) || 0, y: parseFloat(el.style.getPropertyValue('--dy')) || 0 }; }
+      inner.addEventListener('pointerdown', function (e) {
+        var el = e.target.closest('.scrap, .sticky');
+        if (!el) return;
+        var p = pos(el);
+        drag = { el: el, x: e.clientX, y: e.clientY, dx: p.x, dy: p.y };
+        el.classList.add('lift'); el.style.zIndex = ++top;
+        scene.classList.add('touched');
+        try { el.setPointerCapture(e.pointerId); } catch (_) {}
+        e.preventDefault();
+      });
+      inner.addEventListener('pointermove', function (e) {
+        if (drag) shift(drag.el, drag.dx + e.clientX - drag.x, drag.dy + e.clientY - drag.y);
+      });
+      function drop() { if (drag) { drag.el.classList.remove('lift'); drag = null; } }
+      inner.addEventListener('pointerup', drop);
+      inner.addEventListener('pointercancel', drop);
+      inner.addEventListener('keydown', function (e) {
+        var el = e.target.closest('.scrap, .sticky');
+        var step = { ArrowLeft: [-12, 0], ArrowRight: [12, 0], ArrowUp: [0, -12], ArrowDown: [0, 12] }[e.key];
+        if (!el || !step) return;
+        var p = pos(el); shift(el, p.x + step[0], p.y + step[1]);
+        scene.classList.add('touched'); e.preventDefault();
+      });
+    }
+
+    // Cards lean toward the pointer
+    Array.prototype.forEach.call(document.querySelectorAll('[data-tilt]'), function (el) {
+      var sheen = document.createElement('span'); sheen.className = 'sheen'; sheen.setAttribute('aria-hidden', 'true');
+      el.appendChild(sheen);
+      if (!fine || reduce) return;
+      var max = el.classList.contains('step') ? 7 : 9;
+      el.addEventListener('pointermove', function (e) {
+        var r = el.getBoundingClientRect();
+        var x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+        el.style.setProperty('--ty', ((x - 0.5) * max).toFixed(2) + 'deg');
+        el.style.setProperty('--tx', ((0.5 - y) * max).toFixed(2) + 'deg');
+        el.style.setProperty('--mx', (x * 100).toFixed(1) + '%');
+        el.style.setProperty('--my', (y * 100).toFixed(1) + '%');
+        el.classList.add('tilting');
+      }, { passive: true });
+      el.addEventListener('pointerleave', function () {
+        el.style.setProperty('--tx', '0deg'); el.style.setProperty('--ty', '0deg');
+        el.classList.remove('tilting');
+      });
+    });
+
+    // Pockets open on tap for touch screens (hover handles the rest)
+    var pockets = document.querySelector('.pockets');
+    if (pockets) pockets.addEventListener('click', function () { pockets.classList.toggle('open'); });
+
+    // Sections lift off the desk as they scroll in
+    var targets = document.querySelectorAll('[data-reveal]');
+    if (!('IntersectionObserver' in window) || reduce) {
+      Array.prototype.forEach.call(targets, function (el) { el.classList.add('in'); });
+    } else {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+      }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+      Array.prototype.forEach.call(targets, function (el) { io.observe(el); });
+    }
+  })();
+</script>
+
+</body>
+</html>
