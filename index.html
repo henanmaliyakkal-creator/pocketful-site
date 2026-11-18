@@ -101,7 +101,8 @@
   nav ul { display: none; list-style: none; gap: 26px; }
   nav ul a { font: 700 13px/1 var(--type); text-decoration: none; color: var(--ink-soft); letter-spacing: .02em; }
   nav ul a:hover { color: var(--ink); }
-  nav .btn { min-height: 40px; padding: 0 16px; font-size: 13px; }
+  nav .btn { min-height: 40px; padding: 0 16px; font-size: 13px; white-space: nowrap; }
+  @media (max-width: 374px) { nav .btn { padding: 0 12px; font-size: 12px; } .wordmark { font-size: 16px; gap: 8px; } .wordmark img { width: 26px; height: 26px; } }
   @media (min-width: 800px) { nav ul { display: flex; } }
 
   /* ---------- Hero ---------- */
@@ -151,6 +152,31 @@
     .swatch { width: 132px; left: -4px; bottom: 124px; }
     .punch { width: 146px; right: -4px; bottom: 92px; }
     .scene .sticky { right: 6px; top: -6px; width: 104px; }
+  }
+  /* Phones: a smaller phone so the scraps sit in the margins and only touch its frame */
+  @media (max-width: 559px) {
+    .scene { height: 560px; }
+    /* Less depth on phones: big translateZ scales the scraps up and pushes them off-screen */
+    .scene-inner .scrap, .scene-inner .sticky { --z: 60px !important; z-index: 4; }
+    .scene .phone { width: 220px; margin-left: -110px; top: 20px; padding: 7px; border-radius: 34px; }
+    .phone .screen { border-radius: 28px; }
+    .scene-inner .polaroid { width: 92px; padding: 6px 6px 22px; left: 6px; top: 40px; }
+    .scene-inner .polaroid .cap { font-size: 12px; }
+    .scene .scene-inner .sticky { width: 88px; min-height: 76px; padding: 9px; font-size: 15px; right: 8px; top: 4px; }
+    .scene-inner .receipt { width: 98px; padding: 10px 9px 14px; font-size: 9.5px; right: 6px; top: 250px; }
+    .scene-inner .swatch { width: 100px; left: 6px; bottom: 110px; }
+    .scene-inner .swatch .cap { font-size: 9.5px; } .scene-inner .swatch .cap i { font-size: 13px; }
+    .scene-inner .punch { width: 124px; padding: 8px 9px 9px; right: 16px; bottom: 24px; }
+    .scene-inner .punch .name { font-size: 10.5px; }
+    /* Sign-up: full-width button is easier to hit */
+    .slip .btn { flex: 1 1 100%; }
+    /* Steps: swipe sideways instead of three tall screenshots in a row */
+    .steps { grid-auto-flow: column; grid-auto-columns: 80%; overflow-x: auto; scroll-snap-type: x mandatory; margin: 32px calc(var(--gutter) * -1) 0; padding: 10px var(--gutter) 12px; scroll-padding: 0 var(--gutter); scrollbar-width: none; }
+    .steps::-webkit-scrollbar { display: none; }
+    .step { scroll-snap-align: start; }
+    .step .note { left: 6px; }
+    #how .steps-hint { display: block; margin-top: 12px; }
+
   }
 
   .scrap { position: absolute; box-shadow: var(--shadow); }
@@ -208,6 +234,7 @@
   .step:nth-child(2) .note { transform: rotate(1.5deg); }
   .step .note::after { display: none; }
   .step .note .n { font: 400 11px/1 var(--display); color: var(--stamp); display: block; margin-bottom: 3px; }
+  .steps-hint { display: none; margin-top: 4px; font: 500 17px/1 var(--hand); color: var(--ink-soft); }
   .step p { margin-top: 20px; color: var(--ink-soft); font-size: 15px; max-width: 34ch; }
   .step p b { color: var(--ink); }
   .plus { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--stamp-deep); color: #fff; font: 700 15px/1 var(--type); vertical-align: -5px; }
@@ -491,6 +518,7 @@
         <p>The year is twelve folders. <b>Name an era</b>, a trip, exam week, a new job, and those days get a pocket of their own.</p>
       </div>
     </div>
+    <p class="steps-hint" aria-hidden="true">swipe for the next step →</p>
   </div>
 </section>
 
