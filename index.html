@@ -457,9 +457,7 @@
       <h1 class="headline">A scrapbook journal <i>for your whole life.</i></h1>
       <p class="lede prose">Tap <span class="plus">+</span> to tuck in a scrap: a photo, a note, a mood, a receipt. It lands on today’s page. Your scraps file themselves into monthly pockets, and habits, moods, money and plans live on the same pages. The small stuff and the big stuff end up in one place.</p>
 
-      <!-- Sign-up slip. Point the form at a free form endpoint (Formspree, Tally, Web3Forms all have free tiers)
-           by replacing YOUR_FORM_ID. Until then it opens an email instead, so nothing is lost. -->
-      <form class="slip" id="notify" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+      <form class="slip" id="notify" action="https://formspree.io/f/mgakynkv" method="POST">
         <span class="tape"></span>
         <label for="email">Save me a page. Tell me when it’s out.</label>
         <div class="row">
@@ -626,7 +624,7 @@
       <div>
         <h2 class="headline">Your first page <i>is almost ready.</i></h2>
         <p class="prose">Pocketful is free, with no store and no account. Leave your email and we’ll send one note the day it’s out.</p>
-        <form class="slip" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        <form class="slip" action="https://formspree.io/f/mgakynkv" method="POST">
           <span class="tape"></span>
           <label for="email2">Save me a page. Tell me when it’s out.</label>
           <div class="row">
@@ -660,23 +658,16 @@
 <script type="module" src="line-art/dist/pocket-phone.js?v=3"></script>
 
 <script>
-  // Sign-up slip. With a real form endpoint it posts quietly and shows the stamped reply.
-  // With the placeholder still in place it falls back to an email, so the page works from day one.
+  // Sign-up slip: posts to Formspree in the background and shows the stamped reply.
   Array.prototype.forEach.call(document.querySelectorAll('form.slip'), function (form) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      var email = form.email.value.trim();
       if (!form.checkValidity()) { form.reportValidity(); return; }
-      if (form.action.indexOf('YOUR_FORM_ID') !== -1) {
-        location.href = 'mailto:henanmaliyakkal@gmail.com?subject=' + encodeURIComponent('Save me a page') + '&body=' + encodeURIComponent('Tell me when Pocketful is out: ' + email);
-        form.classList.add('sent');
-        return;
-      }
       var btn = form.querySelector('button');
-      btn.disabled = true;
+      btn.disabled = true; btn.textContent = 'Saving…';
       fetch(form.action, { method: 'POST', headers: { 'Accept': 'application/json' }, body: new FormData(form) })
         .then(function (r) { if (!r.ok) throw new Error(); form.classList.add('sent'); })
-        .catch(function () { btn.disabled = false; alert('That didn’t send. Try again, or email henanmaliyakkal@gmail.com.'); });
+        .catch(function () { btn.disabled = false; btn.textContent = 'Try again'; form.querySelector('small').textContent = 'That didn’t send. Check your connection and tap Try again.'; });
     });
   });
 </script>
