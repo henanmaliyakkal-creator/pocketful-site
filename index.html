@@ -9,6 +9,7 @@
 <meta property="og:description" content="A scrapbook journal for your whole life. Photos, moods, habits and more.">
 <meta property="og:image" content="https://henanmaliyakkal-creator.github.io/pocketful-site/img/icon.png">
 <link rel="icon" href="img/icon.png">
+<meta name="theme-color" content="#FCFAF5">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Caveat:wght@500;600&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
@@ -101,7 +102,9 @@
   nav ul { display: none; list-style: none; gap: 26px; }
   nav ul a { font: 700 13px/1 var(--type); text-decoration: none; color: var(--ink-soft); letter-spacing: .02em; }
   nav ul a:hover { color: var(--ink); }
-  nav .btn { min-height: 40px; padding: 0 16px; font-size: 13px; white-space: nowrap; }
+  .skip { position: absolute; left: 12px; top: -60px; z-index: 100; padding: 10px 14px; background: var(--ink); color: var(--paper); border-radius: 8px; font: 700 14px/1 var(--type); text-decoration: none; }
+  .skip:focus { top: 10px; }
+  nav .btn { min-height: 44px; padding: 0 16px; font-size: 13px; white-space: nowrap; }
   @media (max-width: 374px) { nav .btn { padding: 0 12px; font-size: 12px; } .wordmark { font-size: 16px; gap: 8px; } .wordmark img { width: 26px; height: 26px; } }
   @media (min-width: 800px) { nav ul { display: flex; } }
 
@@ -350,7 +353,7 @@
 
   footer { padding: 36px 0 48px; }
   footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 14px; align-items: center; font-size: 13px; color: var(--ink-soft); }
-  footer a { text-decoration: none; }
+  footer a { text-decoration: none; display: inline-flex; align-items: center; min-height: 44px; }
   footer a:hover { text-decoration: underline; }
   footer .made { font: 500 19px/1 var(--hand); }
 
@@ -432,6 +435,7 @@
 </style>
 </head>
 <body>
+<a class="skip" href="#notify">Skip to sign-up</a>
 
 <nav>
   <div class="wrap">
@@ -445,6 +449,7 @@
   </div>
 </nav>
 
+<main>
 <header class="hero" id="top">
   <div class="wrap">
     <div>
@@ -643,6 +648,7 @@
     </div>
   </div>
 </section>
+</main>
 
 <footer>
   <div class="wrap">
