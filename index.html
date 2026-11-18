@@ -33,6 +33,7 @@
     --stamp-deep: #B34728; /* same ink, pressed harder: 5.1:1 under white text */
     --denim: #7F9BBD;
     --denim-deep: #5F7CA2;
+    --pen: #2D4A8A; /* ballpoint blue for handwriting */
     --tape-pink: #F2C2AE;
     --tape-mint: #BCD7C6;
     --tape-blue: #C7D1EC;
@@ -125,7 +126,7 @@
   /* The sign-up: a lined slip of paper with one field, stamped to send */
   .slip { position: relative; margin-top: 30px; max-width: 460px; padding: 18px 18px 16px; background: var(--paper); box-shadow: var(--shadow); transform: rotate(-.6deg); }
   .slip .tape { left: 22px; top: -11px; width: 70px; background: var(--tape-pink); transform: rotate(-3deg); }
-  .slip label { display: block; padding-bottom: 6px; border-bottom: 1px solid var(--line); font: 600 20px/28px var(--hand); color: var(--ink); }
+  .slip label { display: block; padding-bottom: 6px; border-bottom: 1px solid var(--line); font: 600 20px/28px var(--hand); color: var(--pen); }
   .slip .row { display: flex; gap: 10px; margin-top: 8px; flex-wrap: wrap; }
   .slip input { flex: 1 1 200px; min-height: 52px; padding: 0 14px; border: 1.5px solid var(--line); border-radius: 10px; background: var(--card); font: 400 16px/1 var(--type); color: var(--ink); }
   .slip input::placeholder { color: var(--ink-soft); font-style: italic; }
@@ -288,7 +289,7 @@
   /* Ruled paper: every text line is 26px and the rules start at the padding edge, so words sit on the lines */
   .ask { grid-column: span 2; padding: 16px 18px 26px; background: var(--paper); background-image: repeating-linear-gradient(transparent 0 25px, var(--line) 25px 26px); background-position: 0 16px; box-shadow: var(--shadow); --r: 1deg; }
   .ask h3 { line-height: 26px; margin-bottom: 0; }
-  .ask .q { font: 500 22px/26px var(--hand); color: var(--ink); }
+  .ask .q { font: 500 22px/26px var(--hand); color: var(--pen); }
   .ask .a { margin-top: 0; font-size: 13px; line-height: 26px; color: var(--ink-soft); }
   .ask .a b { color: var(--ink); }
 
@@ -297,7 +298,7 @@
   .us .clocks { display: flex; gap: 10px; margin-top: 10px; font-size: 12px; color: var(--ink-soft); }
   .us .clocks span { padding: 4px 9px; border-radius: 999px; background: var(--paper-warm); }
 
-  .board .lead { grid-column: 1 / -1; font: 500 22px/1.25 var(--hand); color: var(--ink-soft); }
+  .board .lead { grid-column: 1 / -1; font: 500 22px/1.25 var(--hand); color: var(--pen); }
   @media (min-width: 760px) { .board .lead { grid-column: span 2; align-self: center; max-width: 30ch; padding-left: 8px; } }
   /* Phones: one column. Placed after the span rules so it wins over .pockets/.ask/.us */
   @media (max-width: 599px) { .board { grid-template-columns: 1fr; } .board > .pockets, .board > .ask, .board > .us { grid-column: auto; } }
@@ -393,7 +394,7 @@
   .scene .scrap:hover, .scene .sticky:hover { outline: 1.5px dashed rgba(37,34,31,.35); outline-offset: 5px; --lift: 14px; box-shadow: 0 10px 18px rgba(59,47,34,.18), 0 2px 4px rgba(59,47,34,.10); }
   .scene .lift, .scene .lift:hover { --lift: 70px; cursor: grabbing; box-shadow: 0 34px 44px rgba(59,47,34,.22), 0 6px 10px rgba(59,47,34,.10); animation: none; }
   .scene .scrap:focus-visible, .scene .sticky:focus-visible { outline: 3px solid var(--ink); outline-offset: 4px; }
-  .hint-pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px 6px 10px; border-radius: 999px; background: var(--card); box-shadow: var(--shadow); font: 600 18px/1.1 var(--hand); color: var(--ink); white-space: nowrap; }
+  .hint-pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px 6px 10px; border-radius: 999px; background: var(--card); box-shadow: var(--shadow); font: 600 18px/1.1 var(--hand); color: var(--pen); white-space: nowrap; }
   .hint-pill svg { width: 20px; height: 20px; flex: none; color: var(--stamp-deep); }
   .scene .hint { position: absolute; left: 50%; bottom: -48px; transform: translateX(-50%); z-index: 6; pointer-events: none; transition: opacity .4s ease; }
   .scene.touched .hint { opacity: 0; }
